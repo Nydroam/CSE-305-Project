@@ -4,7 +4,6 @@ mydb = mysql.connector.connect(
     host='localhost',
     user='SeanChu',
     passwd='Rimewind13',
-    database='mydatabase'
     )
 
 
@@ -46,6 +45,8 @@ def makeKeyConstraints():
 
 #Run once to initalize database
 def init():
+    global mycursor
+    mycursor.execute('CREATE DATABASE mydatabase')
     makeTables()
     makeKeyConstraints
 init()
