@@ -12,7 +12,7 @@ mycursor.execute('CREATE DATABASE mydatabase')
 mydb = mysql.connector.connect(
     host='localhost',
     user='user',
-    passwd='pw',
+    passwd='password',
     database = 'mydatabase'
     )
 mycursor = mydb.cursor()
