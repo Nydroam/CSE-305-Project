@@ -2,8 +2,8 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host='localhost',
-    user='SeanChu',
-    passwd='Rimewind13',
+    user='user',
+    passwd='pw',
     database='mydatabase'
     )
 
@@ -36,7 +36,7 @@ def getItems():
     result = mycursor.fetchall()
     return result
 
-def insertShoppingCart(
+#def insertShoppingCart(
 #addItem(1,'Cup',1.24,'Utensil','Mikes',3)
 getItems()
 
