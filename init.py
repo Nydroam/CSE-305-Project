@@ -10,7 +10,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 def makeTables():
     global mycursor
-    #mycursor.execute('CREATE TABLE Item ( Type CHAR(50), ItemName CHAR(50), ItemID INTEGER, Price FLOAT, Seller CHAR(50), PRIMARY KEY(ItemID))')
+    mycursor.execute('CREATE TABLE Item ( Type CHAR(50), ItemName CHAR(50), ItemID INTEGER, Price FLOAT, Seller CHAR(50), PRIMARY KEY(ItemID))')
     mycursor.execute('CREATE TABLE Customer( CustomerID INTEGER, FirstName CHAR(50), LastName CHAR(50), Email CHAR(50), Phone CHAR(10), Address CHAR(50), PRIMARY KEY (CustomerID))')
     mycursor.execute('CREATE TABLE Payment( PaymentType CHAR(20), CardNumber INTEGER, CardExpiryDate DATE, ShoppingCartID INTEGER, PRIMARY KEY(CardNumber,ShoppingCartID))')
     mycursor.execute('CREATE TABLE Inventory(ItemID INTEGER, Quantity INTEGER, PRIMARY KEY (ItemID))')
