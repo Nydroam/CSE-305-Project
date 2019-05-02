@@ -54,8 +54,7 @@ def makeKeyConstraints():
 #Run once to initalize database
 def init():
     global mycursor
-    mycursor.execute('CREATE DATABASE mydatabase')
     makeTables()
-    makeKeyConstraints
+    makeKeyConstraints()
 init()
 
