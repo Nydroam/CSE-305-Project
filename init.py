@@ -8,6 +8,14 @@ mydb = mysql.connector.connect(
 
 
 mycursor = mydb.cursor()
+mycursor.execute('CREATE DATABASE mydatabase')
+mydb = mysql.connector.connect(
+    host='localhost',
+    user='user',
+    passwd='pw',
+    database = 'mydatabase'
+    )
+mycursor = mydb.cursor()
 def makeTables():
     global mycursor
     mycursor.execute('CREATE TABLE Item ( Type CHAR(50), ItemName CHAR(50), ItemID INTEGER, Price FLOAT, Seller CHAR(50), PRIMARY KEY(ItemID))')
@@ -50,7 +58,4 @@ def init():
     makeTables()
     makeKeyConstraints
 init()
-mycursor.execute("SHOW TABLES")
 
-for x in mycursor:
-    print(x)
