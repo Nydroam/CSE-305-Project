@@ -4,7 +4,10 @@ import MenuBar from './MenuBar'
 class Cart extends Component {
     render(){
         return(
-            <MenuBar />
+            <div>
+                <MenuBar />
+                Cart
+            </div>
         );
     }
 
