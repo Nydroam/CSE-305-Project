@@ -27,7 +27,7 @@ def makeTables():
     mycursor.execute('CREATE TABLE Inventory(ItemID INTEGER, Quantity INTEGER, PRIMARY KEY (ItemID))')
     mycursor.execute('CREATE TABLE Shipment( ShipmentID INTEGER, ShipmentDetail CHAR(50), ShipmentType CHAR(20), DeliveryAddress CHAR(50), ShipmentCharge FLOAT, PRIMARY KEY(ShipmentID))')
     mycursor.execute('CREATE TABLE Employee( Designation CHAR(20), DateJoined DATE, FirstName CHAR(50), LastName CHAR(50), Email CHAR(50), Phone CHAR(10), Address CHAR(50), EmployeeID INTEGER, SupervisorID INTEGER, PRIMARY KEY (EmployeeID))')
-    mycursor.execute('CREATE TABLE Review (Rating FLOAT, DetailedReview CHAR(50), ItemID INTEGER, SellerID INTEGER, CustomerID INTEGER, ReviewID INTEGER, PRIMARY KEY(ReviewID))')
+    mycursor.execute('CREATE TABLE Review (Rating FLOAT, DetailedReview CHAR(50), ItemID INTEGER,CustomerID INTEGER, ReviewID INTEGER, PRIMARY KEY(ReviewID))')
     mycursor.execute('CREATE TABLE ShoppingCart( TotalPrice FLOAT, ShoppingCartID INTEGER, ItemID INTEGER, ItemQuantity INTEGER, PRIMARY KEY(ShoppingCartID,ItemID))')
     '''
     Relational TABLES
@@ -42,7 +42,7 @@ def makeKeyConstraints():
     mycursor.execute('ALTER TABLE Inventory ADD CONSTRAINT FOREIGN KEY (ItemID) REFERENCES Item(ItemID) ON DELETE CASCADE ON UPDATE CASCADE')
     mycursor.execute('ALTER TABLE Payment ADD CONSTRAINT FOREIGN KEY (ShoppingCartID) REFERENCES ShoppingCart(ShoppingCartID) ON DELETE CASCADE ON UPDATE CASCADE ')
     mycursor.execute('ALTER TABLE Review ADD CONSTRAINT FOREIGN KEY (ItemID) REFERENCES Item(ItemID) ON DELETE CASCADE ON UPDATE CASCADE')
-    mycursor.execute('ALTER TABLE Review ADD CONSTRAINT FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE SET NULL ON UPDATE CASCADE ')
+    #mycursor.execute('ALTER TABLE Review ADD CONSTRAINT FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE SET NULL ON UPDATE CASCADE ')
     mycursor.execute('ALTER TABLE ShoppingCart ADD CONSTRAINT FOREIGN KEY (ItemID) REFERENCES Item(ItemID) ON DELETE CASCADE ON UPDATE CASCADE')
     '''
     Relational TABLES

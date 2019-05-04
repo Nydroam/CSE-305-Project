@@ -19,10 +19,10 @@ def getReview(idnum):
     result = mycursor.fetchall()
     return result
 #Add a review
-def addReview(rating,details,itemID,SellerID,CustID,ReviewID):
+def addReview(rating,details,itemID,CustID,ReviewID):
     global mycursor
-    sql = 'INSERT INTO Review (Rating,DetailedReview,ItemID,SellerID,CustomerID,ReviewID) VALUES (%s,%s,%s,%s,%s,%s)'
-    val = (rating,details,itemID,SellerID,CustID,ReviewID)
+    sql = 'INSERT INTO Review (Rating,DetailedReview,ItemID,CustomerID,ReviewID) VALUES (%s,%s,%s,%s,%s)'
+    val = (rating,details,itemID,CustID,ReviewID)
     mycursor.execute(sql,val)
     sql = 'SELECT AVGRating,NumReviews FROM Item WHERE ItemID = (%s)'
     val = (itemID,)
@@ -38,7 +38,7 @@ def addReview(rating,details,itemID,SellerID,CustID,ReviewID):
 #Returns a list of Items sorted by Rating
 def getItemRating():
     global mycursor
-    sql = 'SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory ORDER BY DESC AVGRating'
+    sql = 'SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory ORDER BY AVGRating DESC '
     mycursor.execute(sql)
     return mycursor.fetchall()
 #Given an ItemID and a number, updates the quantity in Inventory of that item
@@ -125,4 +125,3 @@ def removeShoppingCart(idnum):
         mycursor.execute(sql,val)
     mydb.commit()
         
-
