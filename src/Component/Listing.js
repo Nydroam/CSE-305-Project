@@ -5,7 +5,7 @@ import axios from 'axios';
 class Listing extends Component {
 
     componentWillMount(){
-        axios.get('localhost:5000/listing')
+        axios.get('http://localhost:5000/listing')
         .then(function (response) {
             console.log(response);
         })
