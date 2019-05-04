@@ -1,5 +1,5 @@
 import mysql.connector
-
+#REVIEW METHODS
 mydb = mysql.connector.connect(
     host='localhost',
     user='user',
@@ -10,6 +10,37 @@ mydb = mysql.connector.connect(
 
 
 mycursor = mydb.cursor()
+#Given an ItemID return a list of its reviews
+def getReview(idnum):
+    global mycursor
+    sql = 'SELECT * FROM Review WHERE ItemID = (%s)'
+    val = (idnum,)
+    mycursor.execute(sql,val)
+    result = mycursor.fetchall()
+    return result
+#Add a review
+def addReview(rating,details,itemID,SellerID,CustID,ReviewID):
+    global mycursor
+    sql = 'INSERT INTO Review (Rating,DetailedReview,ItemID,SellerID,CustomerID,ReviewID) VALUES (%s,%s,%s,%s,%s,%s)'
+    val = (rating,details,itemID,SellerID,CustID,ReviewID)
+    mycursor.execute(sql,val)
+    sql = 'SELECT AVGRating,NumReviews FROM Item WHERE ItemID = (%s)'
+    val = (itemID,)
+    mycursor.execute(sql,val)
+    result = mycursor.fetchone()
+    totalRating = result[0]*result[1]
+    totalRating = totalRating + rating
+    newAVG = totalRating / (result[1] + 1)
+    sql = 'UPDATE Item SET AVGRating = (%s),NumReviews = (%s) WHERE ItemID = (%s)'
+    val = (newAVG,result[1]+1,itemID)
+    mycursor.execute(sql,val)
+    mydb.commit()
+#Returns a list of Items sorted by Rating
+def getItemRating():
+    global mycursor
+    sql = 'SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory ORDER BY DESC AVGRating'
+    mycursor.execute(sql)
+    return mycursor.fetchall()
 #Given an ItemID and a number, updates the quantity in Inventory of that item
 def updateStock(idnum,change):
     global mycursor
@@ -30,8 +61,8 @@ def addItem(idnum,name,price,itemtype,seller,quantity):
     for x in result:
         if (idnum == x[0]):
             return False
-    sql = 'INSERT INTO Item (Type,ItemName,ItemID,Price,Seller) VALUES (%s,%s,%s,%s,%s)'
-    val = (itemtype, name, idnum, price,seller)
+    sql = 'INSERT INTO Item (Type,ItemName,ItemID,Price,Seller,AVGRating,NumReviews) VALUES (%s,%s,%s,%s,%s,%s,%s)'
+    val = (itemtype, name, idnum, price,seller,0,0)
     mycursor.execute(sql,val)
     sql = 'INSERT INTO Inventory(ItemID,Quantity) VALUES (%s,%s)'
     val = (idnum,quantity)
@@ -42,10 +73,10 @@ def deleteItem():
     mycursor.execute('DELETE FROM Item')
     mydb.commit()
 #Get a dictionary of items in the shop inventory
-#Returns a list of tuples, Each Tuple is (ItemID,ItemType,ItemName,Price,Seller,Quantity)
+#Returns a list of tuples, Each Tuple is (ItemID,ItemType,ItemName,Price,Seller,Quantity,AVGRating)
 def getItems():
     global mycursor
-    mycursor.execute('SELECT * FROM Item NATURAL JOIN Inventory')
+    mycursor.execute('SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory')
     result = mycursor.fetchall()
     return result
 #Given a ShoppingCart ID and a dictionary of ItemID:Quantity
