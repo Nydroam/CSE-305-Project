@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import MenuBar from './MenuBar'
-import axios from 'axios'
+import MenuBar from './MenuBar';
+import axios from 'axios';
 
 class Listing extends Component {
 
     componentWillMount(){
-        axios.get('/user?ID=12345')
+        axios.get('localhost:5000/listing')
         .then(function (response) {
             console.log(response);
         })
