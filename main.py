@@ -46,10 +46,20 @@ def cart():
     """
     Gets items from shopping cart
     """
-    cart = getShoppingCart(1)
+    cart = data.getShoppingCart(1)
     print(cart)
     return cart
 
+@app.route("/purchase")
+def purchase():
+    """
+    Purchases items from shopping cart
+    """
+    cart = data.getShoppingCart(1)
+    print(cart)
+    for items in cart:
+        data.updateStock(items[2],-1*items[3])
+        
 @app.route("/review/<int:idnum>")
 def review(idnum):
     """
