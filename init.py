@@ -9,7 +9,7 @@ mydb = mysql.connector.connect(
 
 
 mycursor = mydb.cursor()
-mycursor.execute('DROP DATABASE mydatabase')    
+mycursor.execute('DROP DATABASE IF EXISTS mydatabase')    
 mycursor.execute('CREATE DATABASE mydatabase')
 mydb = mysql.connector.connect(
     host='localhost',
