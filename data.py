@@ -9,6 +9,18 @@ mydb = mysql.connector.connect(
 
 
 mycursor = mydb.cursor()
+#Given an ItemID and a number, updates the quantity in Inventory of that item
+def updateStock(idnum,change):
+    global mycursor
+    sql = 'SELECT Quantity FROM Inventory WHERE ItemID = (%s)'
+    val = (idnum,)
+    mycursor.execute(sql,val)
+    result = mycursor.fetchone()
+    sql = 'UPDATE Inventory SET Quantity = (%s) WHERE ItemID = (%s)'
+    newQuant = result[0] + change
+    val = (newQuant,idnum)
+    mycursor.execute(sql,val)
+    mydb.commit()
 #Add item to inventory of the shop
 def addItem(idnum,name,price,itemtype,seller,quantity):
     global mycursor
