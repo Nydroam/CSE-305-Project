@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const MenuBar = (e) => {
     return(
         <div>
-            <Menu widths = '4'>
+            <Menu widths = '4' inverted>
                 <Menu.Item>
                     <Link to='/'> Home </Link>
                 </Menu.Item>
