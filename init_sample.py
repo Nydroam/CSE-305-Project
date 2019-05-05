@@ -39,3 +39,6 @@ data.addReview(4,'test',1234,1,7)
 data.addReview(3,'test',1223,1,8)
 data.addReview(4,'test',335,1,9)
 print(data.getItemRating())
+
+
+

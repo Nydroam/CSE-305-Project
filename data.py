@@ -79,24 +79,55 @@ def getItems():
     mycursor.execute('SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory')
     result = mycursor.fetchall()
     return result
-#Given a ShoppingCart ID and a dictionary of ItemID:Quantity
-def insertShoppingCart(idnum, items):
+#Given a ShoppingCart ID and a itemid and quantity
+def insertShoppingCart(idnum, itemid,amount):
     global mycursor
-    prices = []
-    for x in items:
-        sql = 'SELECT Price FROM Item WHERE ItemID = (%s)'
-        itemnum = (x,)
-        mycursor.execute(sql,itemnum)
-        result = mycursor.fetchone()
-        price = result[0] * items[x]
-        prices.append(price)
-    i = 0
-    for y in prices:
-        sql = 'INSERT INTO ShoppingCart (TotalPrice,ShoppingCartID,ItemID,ItemQuantity) VALUES (%s,%s,%s,%s)'
-        key = (list)(items.keys())[i]
-        val = (y,idnum,key,items[key])
+    worked = True
+    sql = 'SELECT Price FROM Item WHERE ItemID = (%s)'
+    itemnum = (itemid,)
+    mycursor.execute(sql,itemnum)
+    result = mycursor.fetchone()
+    price = result[0]
+    sql = 'SELECT ItemID FROM ShoppingCart WHERE ShoppingCartID = (%s)'
+    val = (idnum,)
+    found = False
+    mycursor.execute(sql,val)
+    result = mycursor.fetchall()
+    for x in result:
+        if (x[0] == itemid):
+            found = True
+            break
+    sql = 'SELECT Quantity FROM Inventory WHERE ItemID = (%s)'
+    mycursor.execute(sql,itemnum)
+    result = mycursor.fetchone()
+    if (found):
+        sql = 'SELECT ItemQuantity FROM ShoppingCart WHERE ItemID = (%s) AND ShoppingCartID = (%s)'
+        val = (itemid,idnum)
+        mycursor.execute(sql,val)
+        curr = mycursor.fetchone()
+        amount = amount + curr[0]
+    if (result[0] < amount):
+        amount = result[0]
+        price = price * amount
+        if(found):
+            sql = 'UPDATE ShoppingCart SET ItemQuantity=(%s),TotalPrice=(%s) WHERE ItemID = (%s) AND ShoppingCartID = (%s)'
+            val = (amount,price, itemid, idnum)
+        else:
+            sql = 'INSERT INTO ShoppingCart (TotalPrice,ShoppingCartID,ItemID,ItemQuantity) VALUES (%s,%s,%s,%s)'
+            val = (price,idnum,itemid,amount)
+        mycursor.execute(sql,val)
+        worked = False
+    else:
+        price = price*amount
+        if(found):
+            sql = 'UPDATE ShoppingCart SET ItemQuantity=(%s),TotalPrice=(%s) WHERE ItemID = (%s) AND ShoppingCartID = (%s)'
+            val = (amount,price, itemid, idnum)
+        else:
+            sql = 'INSERT INTO ShoppingCart (TotalPrice,ShoppingCartID,ItemID,ItemQuantity) VALUES (%s,%s,%s,%s)'
+            val = (price,idnum,itemid,amount)
         mycursor.execute(sql,val)
     mydb.commit()
+    return worked
 #Given shoppingCart id gets a list of tuples of (TotalPrice,ShoppingCartID,ItemID,Quantity)
 def getShoppingCart(idnum):
     global mycursor
