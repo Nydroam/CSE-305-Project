@@ -23,7 +23,9 @@ def listing():
     Gets items from database
     """
     items = data.getItems()
-    print(items)
+    cart = data.getShoppingCart(1)
+    print(cart)
+    #print(items)
     return items
 
 @app.route("/popular")
@@ -35,11 +37,16 @@ def popular():
     print(items)
     return items
 
-@app.route("/addcart")
+@app.route("/addcart", methods =['POST'])
 def addcart():
     """
     Adds items to shopping cart
     """
+    d = request.data
+    for key in d.keys():
+        val = d[key]
+        if val > 0:
+            data.insertShoppingCart(1,int(key),val)
     return ""
 
 @app.route("/cart")

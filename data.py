@@ -18,6 +18,7 @@ def getReview(idnum):
     mycursor.execute(sql,val)
     result = mycursor.fetchall()
     return result
+
 #Add a review
 def addReview(rating,details,itemID,CustID,ReviewID):
     global mycursor
@@ -35,12 +36,14 @@ def addReview(rating,details,itemID,CustID,ReviewID):
     val = (newAVG,result[1]+1,itemID)
     mycursor.execute(sql,val)
     mydb.commit()
+    
 #Returns a list of Items sorted by Rating
 def getItemRating():
     global mycursor
     sql = 'SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory ORDER BY AVGRating DESC '
     mycursor.execute(sql)
     return mycursor.fetchall()
+
 #Given an ItemID and a number, updates the quantity in Inventory of that item
 def updateStock(idnum,change):
     global mycursor
@@ -53,6 +56,7 @@ def updateStock(idnum,change):
     val = (newQuant,idnum)
     mycursor.execute(sql,val)
     mydb.commit()
+    
 #Add item to inventory of the shop
 def addItem(idnum,name,price,itemtype,seller,quantity):
     global mycursor
@@ -68,10 +72,12 @@ def addItem(idnum,name,price,itemtype,seller,quantity):
     val = (idnum,quantity)
     mycursor.execute(sql,val)
     mydb.commit()
+    
 def deleteItem():
     global mycursor
     mycursor.execute('DELETE FROM Item')
     mydb.commit()
+    
 #Get a dictionary of items in the shop inventory
 #Returns a list of tuples, Each Tuple is (ItemID,ItemType,ItemName,Price,Seller,Quantity,AVGRating)
 def getItems():
@@ -79,6 +85,7 @@ def getItems():
     mycursor.execute('SELECT ItemID,Type,ItemName,Price,Seller,Quantity,AVGRating FROM Item NATURAL JOIN Inventory')
     result = mycursor.fetchall()
     return result
+
 #Given a ShoppingCart ID and a itemid and quantity
 def insertShoppingCart(idnum, itemid,amount):
     global mycursor
@@ -128,6 +135,7 @@ def insertShoppingCart(idnum, itemid,amount):
         mycursor.execute(sql,val)
     mydb.commit()
     return worked
+
 #Given shoppingCart id gets a list of tuples of (TotalPrice,ShoppingCartID,ItemID,Quantity)
 def getShoppingCart(idnum):
     global mycursor
@@ -136,6 +144,7 @@ def getShoppingCart(idnum):
     mycursor.execute(sql,val)
     result = mycursor.fetchall()
     return result
+
 #Given Shoppingcart id, removes all entries with that id from shoppingCart, then updates Inventory
 def removeShoppingCart(idnum):
     global mycursor
