@@ -164,4 +164,12 @@ def removeShoppingCart(idnum):
         val = (newQ,x[0])
         mycursor.execute(sql,val)
     mydb.commit()
+
+#Given ShoppingCart id and itemID, removes that item from shoppingcart
+def removeSinglefromShoppingCart(idnum,itemID):
+    global mycursor
+    sql = 'DELETE FROM ShoppingCart WHERE ShoppingCartID = (%s) AND itemID = (%s)'
+    val = (idnum,itemID)
+    mycursor.execute(sql,val)
+    mydb.commit()
         
