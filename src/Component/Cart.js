@@ -5,11 +5,21 @@ import axios from 'axios';
 class Cart extends Component {
 
     componentDidMount(){
-        let arr = this.props.location.state;
-        delete arr['data'];
         axios.post('http://localhost:5000/addcart',
-           {...arr}
+           {...this.props.location.state}
         );
+    }
+
+    filtering(){
+        this.props.location.state.map((item)=>{
+            if(item !== 'data'){
+                return(
+                    <div>
+                    </div>
+                );
+            }
+            return null;
+        })
     }
 
     render(){
@@ -17,7 +27,6 @@ class Cart extends Component {
         return(
             <div>
                 <MenuBar active='cart'/>
-                Cart
             </div>
         );
     }

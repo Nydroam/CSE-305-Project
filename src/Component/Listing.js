@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MenuBar from './MenuBar';
 import axios from 'axios';
-import  { Item, Button, Label, Image}  from 'semantic-ui-react';
+import  { Item, Button, Label, Rating, Dimmer, Loader }  from 'semantic-ui-react';
 
 class Listing extends Component {
     
@@ -33,18 +33,19 @@ class Listing extends Component {
             let amount = this.state[name];
             return(
                 <Item key={item[0]}>
-                    <Item.Image size = 'tiny' src= {require(`../sample_images/${item[0]}.PNG`)} />
+                    <Item.Image size = 'small' src= {require(`../sample_images/${item[0]}.PNG`)} />
                     <Item.Content>
                         <Item.Header>{item[2]}</Item.Header>
-                        <Item.Description>{`Item price: $${item[3]}`}</Item.Description>
-                        <Item.Description>{`Item Stock: ${item[5]}`}</Item.Description>
-                        <Item.Description>{`Item Seller: ${item[4]}`}</Item.Description>
+                        <Item.Description>{`Price: $${item[3]}`}</Item.Description>
+                        <Item.Description>{`Stock: ${item[5]}`}</Item.Description>
+                        <Item.Description>{`Seller: ${item[4]}`}</Item.Description>
                         <Item.Extra>
+                            <Rating icon='star' disabled defaultRating={item[6]} maxRating={5} />
                             <Label>{`${item[1]}`}</Label>
                             <Button floated='right' onClick={()=> this.setState({[item[0]]:amount+=1})} disabled={amount === item[5] ? true: false}>+</Button>
                             <Button floated='right'>{amount}</Button>
                             <Button floated='right' onClick={()=>this.setState({[item[0]]:amount-=1})} disabled={amount === 0 ? true : false}>-</Button> 
-                            <Button floated='right' disabled={true}>{`Total: $${amount*item[3]}`}</Button>
+                            <Button floated='right'>{`Total: $${(amount*item[3]).toFixed(2)}`}</Button>
                         </Item.Extra>
                     </Item.Content>
                 </Item>
@@ -77,6 +78,9 @@ class Listing extends Component {
             return(
                 <div>
                     <MenuBar />
+                    <Dimmer active>
+                        <Loader />
+                    </Dimmer>
                 </div>
             );
         }
