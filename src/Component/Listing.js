@@ -12,7 +12,7 @@ class Listing extends Component {
         .then((response) => {
             this.setState({data: response.data});
             response.data.map((item)=>{
-                this.setState({[item[2]]: 0});
+                this.setState({[item[0]]: 0});
             })
         })
         .catch((error)=> {
@@ -21,13 +21,15 @@ class Listing extends Component {
     }
 
     addtoCart(){
-
+        this.props.history.push({
+            pathname: '/cart',
+            state: this.state
+          });
     }
 
     buildCard(){
-        console.log(this.state);
         return this.state.data.map((item) => {
-            let name = item[2];
+            let name = item[0];
             let amount = this.state[name];
             return(
                 <Item key={item[0]}>
@@ -35,13 +37,13 @@ class Listing extends Component {
                     <Item.Content>
                         <Item.Header>{item[2]}</Item.Header>
                         <Item.Description>{`Item price: $${item[3]}`}</Item.Description>
-                        <Item.Description>{`Item Stock: ${item[6]}`}</Item.Description>
+                        <Item.Description>{`Item Stock: ${item[5]}`}</Item.Description>
                         <Item.Description>{`Item Seller: ${item[4]}`}</Item.Description>
                         <Item.Extra>
                             <Label>{`${item[1]}`}</Label>
-                            <Button floated='right' onClick={()=> this.setState({[item[2]]:amount+=1})} disabled={amount === item[6] ? true: false}>+</Button>
+                            <Button floated='right' onClick={()=> this.setState({[item[0]]:amount+=1})} disabled={amount === item[5] ? true: false}>+</Button>
                             <Button floated='right'>{amount}</Button>
-                            <Button floated='right' onClick={()=>this.setState({[item[2]]:amount-=1})} disabled={amount === 0 ? true : false}>-</Button> 
+                            <Button floated='right' onClick={()=>this.setState({[item[0]]:amount-=1})} disabled={amount === 0 ? true : false}>-</Button> 
                             <Button floated='right' disabled={true}>{`Total: $${amount*item[3]}`}</Button>
                         </Item.Extra>
                     </Item.Content>
@@ -59,10 +61,14 @@ class Listing extends Component {
         if(data){
             return(
                 <div>
-                    <MenuBar />
+                    <MenuBar active='listing' />
                     <Item.Group divided>
                         {this.buildCard()}
-                        <Item><Item.Extra><Button primary size = "huge" floated='right' disabled={true}>Add to Cart</Button></Item.Extra></Item>
+                        <Item>
+                            <Item.Extra>
+                                <Button primary size = "huge" floated='right' onClick={()=>this.addtoCart()}>Add to Cart</Button>
+                            </Item.Extra>
+                        </Item>
                     </Item.Group>
                 </div>
             );

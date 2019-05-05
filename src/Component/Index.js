@@ -6,7 +6,7 @@ class Index extends Component {
     render(){
         return(
             <div>
-                <MenuBar />
+                <MenuBar active='home' />
                 <div style={{position: 'relative', top:'100px'}}>
                     <Header as='h1' icon textAlign='center'>
                         <Icon name='shopping bag' circular />
