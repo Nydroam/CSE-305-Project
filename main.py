@@ -43,7 +43,10 @@ def addcart():
     Adds items to shopping cart
     """
     d = request.data
+    print(d)
     for key in d.keys():
+        if key == 'data':
+            continue
         val = d[key]
         if val > 0:
             data.insertShoppingCart(1,int(key),val)
