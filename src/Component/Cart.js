@@ -21,15 +21,19 @@ class Cart extends Component {
 
     sumAll(){
         let arr = this.state.data.map((item) => item[0]);
-        return arr.reduce((a,b)=>a+b);
+        let total = arr.reduce((a,b)=>a+b)
+        return total.toFixed(2);
     }
 
     buildSegment(){
+        console.log(this.state.data);
         return this.state.data.map((item)=>{
             return(
-                <Segment key={item[2]}>
-                    <Image size = 'tiny' src= {require(`../sample_images/${item[2]}.PNG`)} />
-                    {`Amount added: ${item[3]}`}<br />
+                <Segment key={item[1]}>
+                    <Image size = 'tiny' src= {require(`../sample_images/${item[1]}.PNG`)} />
+                    {`Name: ${item[3]}`}<br />
+                    {`Price per item: $${item[4]}`}<br />
+                    {`Amount added: ${item[2]}`}<br />
                     {`Total price: $${item[0]}`}
                 </Segment>
             );
@@ -46,6 +50,7 @@ class Cart extends Component {
                         {this.buildSegment()}
                     </Segment.Group>
                     <Button>{`Total overall: $${this.sumAll()}`}</Button>
+                    <Button positive>Purchase</Button>
                 </div>
             );
         }
