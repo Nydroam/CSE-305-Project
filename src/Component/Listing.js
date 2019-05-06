@@ -43,7 +43,7 @@ class Listing extends Component {
             let amount = this.state[name];
             return(
                 <Item key={item[0]}>
-                    <Item.Image size = 'small' src= {require(`../sample_images/${item[0]}.PNG`)} />
+                    <Item.Image size = 'small'as='a' href={`http://localhost:3001/review/${item[0]}`} src= {require(`../sample_images/${item[0]}.PNG`)} />
                     <Item.Content>
                         <Item.Header>{item[2]}</Item.Header>
                         <Item.Description>{`Price: $${item[3]}`}</Item.Description>
