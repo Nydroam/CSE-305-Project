@@ -13,7 +13,7 @@ mycursor = mydb.cursor()
 #Given an ItemID return a list of its reviews
 def getReview(idnum):
     global mycursor
-    sql = 'SELECT ItemName,Price FROM Item WHERE ItemID = (%s)'
+    sql = 'SELECT ItemName,Price,Seller,Type,AVGRating FROM Item WHERE ItemID = (%s)'
     val = (idnum,)
     mycursor.execute(sql,val)
     things = mycursor.fetchall()

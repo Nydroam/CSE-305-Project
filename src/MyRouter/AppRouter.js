@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import Listing from '../Component/Listing';
 import Index from '../Component/Index';
 import Cart from '../Component/Cart';
+import Review from '../Component/Review';
 import { createBrowserHistory } from 'history'
 
 export const history = createBrowserHistory();
@@ -12,8 +13,10 @@ const AppRouter = () => (
         <div>
         <Switch>
             <Route exact path="/" component={Index} />
+            <Route exact path="/review/:id" component={Review} />
             <Route path="/cart" component={Cart} />
             <Route path="/listing" component={Listing} />
+
         </Switch>
         </div>
     </Router>
