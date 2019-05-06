@@ -1,34 +1,62 @@
 import React, { Component } from 'react';
 import MenuBar from './MenuBar'
 import axios from 'axios';
+import { Segment, Image, Button} from 'semantic-ui-react'
 
 class Cart extends Component {
+    
+    state = {}
 
-    componentDidMount(){
-        axios.post('http://localhost:5000/addcart',
-           {...this.props.location.state}
-        );
+    async getData(){
+        await axios.get('http://localhost:5000/cart').then((data) =>{
+            this.setState({data:data.data});
+        }).catch((error)=> {
+            console.log(error);
+        });;
     }
 
-    filtering(){
-        this.props.location.state.map((item)=>{
-            if(item !== 'data'){
-                return(
-                    <div>
-                    </div>
-                );
-            }
-            return null;
+    componentDidMount(){
+        this.getData();
+    }
+
+    sumAll(){
+        let arr = this.state.data.map((item) => item[0]);
+        return arr.reduce((a,b)=>a+b);
+    }
+
+    buildSegment(){
+        return this.state.data.map((item)=>{
+            return(
+                <Segment key={item[2]}>
+                    <Image size = 'tiny' src= {require(`../sample_images/${item[2]}.PNG`)} />
+                    {`Amount added: ${item[3]}`}<br />
+                    {`Total price: $${item[0]}`}
+                </Segment>
+            );
         })
     }
 
     render(){
-        console.log(this.props);
-        return(
-            <div>
-                <MenuBar active='cart'/>
-            </div>
-        );
+        const {data} = this.state;
+        if(data){
+            return(
+                <div>
+                    <MenuBar active='cart'/>
+                    <Segment.Group>
+                        {this.buildSegment()}
+                    </Segment.Group>
+                    <Button>{`Total overall: $${this.sumAll()}`}</Button>
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    <MenuBar />
+                    No Items in Cart
+                </div>
+            );
+        }
     }
 
 }

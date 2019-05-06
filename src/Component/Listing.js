@@ -11,8 +11,9 @@ class Listing extends Component {
         await axios.get('http://localhost:5000/listing')
         .then((response) => {
             this.setState({data: response.data});
-            response.data.map((item)=>{
+            response.data.map((item) => {
                 this.setState({[item[0]]: 0});
+                return null;
             })
         })
         .catch((error)=> {
@@ -20,7 +21,16 @@ class Listing extends Component {
         });
     }
 
-    addtoCart(){
+    async sendData(){
+        await axios.post('http://localhost:5000/addcart',
+           {...this.state}
+        ).catch((error)=> {
+            console.log(error);
+        });;
+    }
+
+    async addtoCart(){
+        await this.sendData();
         this.props.history.push({
             pathname: '/cart',
             state: this.state
