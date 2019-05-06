@@ -38,7 +38,7 @@ class Review extends Component{
     	if(data){
             return(
                 <div>
-                    <MenuBar active='listing' />
+                    <MenuBar/>
                     <Item.Group divided>
                     <Item>
                    		<Item.Image size='small' src={require(`../sample_images/${params.id}.PNG`)} />

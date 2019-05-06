@@ -34,7 +34,7 @@ class Listing extends Component {
         this.props.history.push({
             pathname: '/cart',
             state: this.state
-          });
+        });
     }
 
     buildCard(){

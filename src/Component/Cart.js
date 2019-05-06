@@ -12,7 +12,14 @@ class Cart extends Component {
             this.setState({data:data.data});
         }).catch((error)=> {
             console.log(error);
-        });;
+        });
+    }
+
+    purchase(){
+        axios.get('http://localhost:5000/purchase');
+        this.props.history.push({
+            pathname: '/success',
+        });
     }
 
     componentDidMount(){
@@ -26,7 +33,6 @@ class Cart extends Component {
     }
 
     buildSegment(){
-        console.log(this.state.data);
         return this.state.data.map((item)=>{
             return(
                 <Segment key={item[1]}>
@@ -42,7 +48,8 @@ class Cart extends Component {
 
     render(){
         const {data} = this.state;
-        if(data){
+        console.log(data);
+        if(data && data.length){
             return(
                 <div>
                     <MenuBar active='cart'/>
@@ -50,7 +57,7 @@ class Cart extends Component {
                         {this.buildSegment()}
                     </Segment.Group>
                     <Button>{`Total overall: $${this.sumAll()}`}</Button>
-                    <Button positive>Purchase</Button>
+                    <Button onClick={()=> this.purchase()} positive>Purchase</Button>
                 </div>
             );
         }
