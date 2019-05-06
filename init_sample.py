@@ -51,5 +51,7 @@ data.addReview(4,'idk',1223,2,19)
 data.addReview(2,'awful',335,2,20)
 print(data.getItemRating())
 
-
+data.insertShoppingCart(1,111,53)
+data.insertShoppingCart(1,703,100)
+print(data.getShoppingCart(1))
 

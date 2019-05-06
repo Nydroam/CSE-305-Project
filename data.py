@@ -136,14 +136,23 @@ def insertShoppingCart(idnum, itemid,amount):
     mydb.commit()
     return worked
 
-#Given shoppingCart id gets a list of tuples of (TotalPrice,ShoppingCartID,ItemID,Quantity)
+#Given shoppingCart id gets a list of tuples of (TotalPrice,ItemID,Quantity,ItemName,Price)
 def getShoppingCart(idnum):
     global mycursor
-    sql = 'SELECT * FROM ShoppingCart WHERE ShoppingCartID = (%s)'
+    sql = 'SELECT TotalPrice,ItemID,ItemQuantity FROM ShoppingCart WHERE ShoppingCartID = (%s)'
     val = (idnum,)
     mycursor.execute(sql,val)
-    result = mycursor.fetchall()
-    return result
+    cartInfo = mycursor.fetchall()
+    ids = []
+    i = 0
+    for x in cartInfo:
+    	val = (x[1],)
+    	sql = 'SELECT ItemName,Price FROM Item WHERE ItemID IN (%s)'
+    	mycursor.execute(sql,val)
+    	result = mycursor.fetchone()
+    	cartInfo[i] = cartInfo[i] + result
+    	i = i+1
+    return cartInfo
 
 #Given Shoppingcart id, removes all entries with that id from shoppingCart, then updates Inventory
 def removeShoppingCart(idnum):
