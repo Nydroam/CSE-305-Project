@@ -69,7 +69,7 @@ def purchase():
     cart = data.getShoppingCart(1)
     print(cart)
     for items in cart:
-        data.updateStock(items[2],-1*items[3])
+        data.updateStock(items[1],-1*items[2])
     return ""
         
 @app.route("/review/<int:idnum>")
