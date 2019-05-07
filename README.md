@@ -1,5 +1,10 @@
 # CSE-305-Project
 
+## Contributors
+Chen Qi Xin - React Frontend
+Raymond Wu - Flask Backend
+Sean Chu - MySQL Backend
+
 ## Features
 * Listing of items available for sale, along with their quantity, seller, and other relevant information.
 * Select items to be added into a shopping cart.
