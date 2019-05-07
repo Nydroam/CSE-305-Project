@@ -68,8 +68,6 @@ def purchase():
     """
     cart = data.getShoppingCart(1)
     print(cart)
-    for items in cart:
-        data.updateStock(items[1],-1*items[2])
     data.removeShoppingCart(1)
     return ""
         
