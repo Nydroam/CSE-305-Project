@@ -16,6 +16,17 @@ pip install flask
 pip install Flask-API
 pip install -U flask-cors
 ```
+### Nodejs
+
+https://nodejs.org/en/download/
+
+```
+npm install axios
+```
+
+### MySQL
+
+https://www.mysql.com/downloads/
 
 ## Run the Application
 
